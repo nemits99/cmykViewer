@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic CMYK Color Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(0,0,0);
+      color: #fff;
+    }
+
+    .container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+      width: 350px;
+    }
+
+    input::placeholder {
+      font-size: 16px;
+    }
+
+    input {
+      font-size: 32px;
+      font-weight: bold;
+      padding: 10px;
+      width: 80%;
+      text-align: center;
+    }
+    a{
+      color: white;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="container">
+    <a href="index.html">Dashboard</a>
+    <h2>CMYK Color Viewer</h2>
+    <input type="text" id="colorInput" placeholder="Enter CMYK (e.g., 0.2,0.5,0.1,0.3)" oninput="displayColor()">
+  </div>
+  <script>
+    function cmykToRgb(c, m, y, k) {
+      const r = 255 * (1 - c) * (1 - k);
+      const g = 255 * (1 - m) * (1 - k);
+      const b = 255 * (1 - y) * (1 - k);
+      return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+    }
+
+    function displayColor() {
+      const colorInput = document.getElementById("colorInput").value;
+      const cmykPattern = /^(\d*\.?\d+),(\d*\.?\d+),(\d*\.?\d+),(\d*\.?\d+)$/;
+      const match = colorInput.match(cmykPattern);
+
+      if (match) {
+        const c = parseFloat(match[1]);
+        const m = parseFloat(match[2]);
+        const y = parseFloat(match[3]);
+        const k = parseFloat(match[4]);
+
+        // Konversi ke RGB dan atur latar belakang
+        document.body.style.backgroundColor = cmykToRgb(c, m, y, k);
+      } else {
+        document.body.style.backgroundColor = "rgb(100, 0, 0)";
+      }
+    }
+  </script>
+</body>
+</html>
